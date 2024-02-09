@@ -9,7 +9,7 @@ face_eye = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_ey
 #cap = cv2.VideoCapture("test.mp4")
 #cap = cv2.VideoCapture("a:/Python/MY_projects/opencv/p1/test.mp4")
 cap = cv2.VideoCapture(0)
-
+# حرکات گنده ای در این برنچ زدم عشق کنی
 
 while cap.isOpened:
     _, img = cap.read()

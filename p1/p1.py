@@ -11,6 +11,8 @@ face_eye = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_ey
 cap = cv2.VideoCapture(0)
 # حرکات گنده ای در این برنچ زدم عشق کنی
 
+bool_avalin_tashkhis_face = False
+
 while cap.isOpened:
     _, img = cap.read()
     
@@ -24,13 +26,25 @@ while cap.isOpened:
     for (x, y , w, h) in face_for_eye:
         cv2.rectangle(img , (x,y), (x+w , y+h), (0,0,255),3)
     
-    
 
-    
-    
     cv2.imshow("img", img)
     if cv2.waitKey(1) & 0xFF == ord("q"):
         break
+    
+    
+    
+    # take a photo and save it   
+    if len(faces) > 0:
+        bool_avalin_tashkhis_face = True
+        
+    if bool_avalin_tashkhis_face == True:
+        result, img = cap.read()
+        if result:
+            cv2.imwrite("A:\Python\MY_projects\opencv\p1\hello.png", img)
+            
+        
+    
+    
 
 
 cap.release()

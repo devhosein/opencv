@@ -22,13 +22,13 @@ while cap.isOpened:
     
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray, 1.1 , 8)
-    face_for_eye = face_eye.detectMultiScale(gray, 1.1, 8)
+    # face_for_eye = face_eye.detectMultiScale(gray, 1.1, 8)
 
-    for (x, y ,w ,h) in faces:
-        cv2.rectangle(img, (x,y), ( x+w , y+h), (255,0,0) , 3)
-        cv2.putText(img, "face", (x+3, y+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-    for (x, y , w, h) in face_for_eye:
-        cv2.rectangle(img , (x,y), (x+w , y+h), (0,0,255),3)
+    # for (x, y ,w ,h) in faces:
+    #     cv2.rectangle(img, (x,y), ( x+w , y+h), (255,0,0) , 3)
+    #     cv2.putText(img, "face", (x+3, y+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+    # for (x, y , w, h) in face_for_eye:
+    #     cv2.rectangle(img , (x,y), (x+w , y+h), (0,0,255),3)
     
 
     # کد نشان دادن تصویر
@@ -58,19 +58,22 @@ while cap.isOpened:
 
     # استخراج ویژگی‌های چهره‌ها
     face_encoding1 = face_recognition.face_encodings(image1)[0]
-    face_encoding2 = face_recognition.face_encodings(image2)[0]
+    # face_encoding2 = face_recognition.face_encodings(image2)[0]
+    try:
+        face_encoding2 = face_recognition.face_encodings(image2)[0]
+        results = face_recognition.compare_faces([face_encoding1], face_encoding2, tolerance=0.6)
+        if results[0]:
+            print("same")
+        else:
+            print("difrent")
+    except:
+        print("عکس خرابه یا چهره ای نداره")
+    
+    
+    
 
-    # مقایسه دو چهره با یک آستانه 0.6
-    results = face_recognition.compare_faces([face_encoding1], face_encoding2, tolerance=0.6)
-
-    # چاپ نتیجه
-
-    if results[0]:
-        print("same")
-    else:
-        print("difrent")
         
-    time.sleep(0.5)
+    time.sleep(0.2)
 
                 
             

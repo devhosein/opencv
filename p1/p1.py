@@ -1,5 +1,7 @@
 import cv2
 
+
+
 #face_cascade = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
 face_cascade = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_frontalface_default.xml")
 face_eye = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_eye_tree_eyeglasses.xml")

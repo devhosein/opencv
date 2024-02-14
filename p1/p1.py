@@ -6,14 +6,14 @@ import time
 
 #face_cascade = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
 face_cascade = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_frontalface_default.xml")
-face_eye = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_eye_tree_eyeglasses.xml")
+#face_eye = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_eye_tree_eyeglasses.xml")
 
 
 
 #cap = cv2.VideoCapture("test.mp4")
 #cap = cv2.VideoCapture("a:/Python/MY_projects/opencv/p1/test.mp4")
 cap = cv2.VideoCapture(0)
-# حرکات گنده ای در این برنچ زدم عشق کنی
+
 
 bool_avalin_tashkhis_face = False
 
@@ -48,9 +48,7 @@ while cap.isOpened:
             cv2.imwrite("A:\Python\MY_projects\opencv\p1\hello.png", img)
             
             
-    
-    
-    # مقایسه دو چهره
+    ### مقایسه دو چهره
 
     # بارگذاری تصاویر دو چهره
     image1 = face_recognition.load_image_file("a:/Python/MY_projects/opencv/p1/image (1).jpg")
@@ -61,23 +59,20 @@ while cap.isOpened:
     # face_encoding2 = face_recognition.face_encodings(image2)[0]
     try:
         face_encoding2 = face_recognition.face_encodings(image2)[0]
-        results = face_recognition.compare_faces([face_encoding1], face_encoding2, tolerance=0.6)
+        results = face_recognition.compare_faces([face_encoding1], face_encoding2, tolerance=0.5)
         if results[0]:
             print("same")
         else:
             print("difrent")
     except:
-        print("عکس خرابه یا چهره ای نداره")
-    
+        print("The face is not clear !!")
     
     
 
         
-    time.sleep(0.2)
+    time.sleep(0.01)
 
                 
-            
-
 cap.release()
 
 

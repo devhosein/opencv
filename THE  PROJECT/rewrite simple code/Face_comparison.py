@@ -2,7 +2,6 @@ import os
 import cv2
 import face_recognition
 import time
-from pynput.keyboard import Key, Listener
 
 
 # نشان دادن جای فایل بدون دادن ادرس کامل 
@@ -82,12 +81,17 @@ while cap.isOpened:
         # شبیه بود
         if results[0]:
             print("same")
+            print("hello boss, very nice to meet you")
         # یکی دیگه بود
         else:
             print("difrent")
+            print("go away!!")
     # تصویر نیست و یا خرابه
     except:
         print("We do not have the face or The face is not clear !!")
-#--------------------------------------------------------------------------------------------------------------   
+#--------------------------------------------------------------------------------------------------------------
+    # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
+    time.sleep(0.2)
+   
 
 cap.release()

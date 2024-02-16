@@ -4,8 +4,17 @@ import face_recognition
 import time
 
 
+
+import os
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, "haarcascade_frontalface_default.xml")
+face_cascade = cv2.CascadeClassifier(filename)
+
+
+
+
 #face_cascade = cv2.CascadeClassifier("./haarcascade_frontalface_default.xml")
-face_cascade = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_frontalface_default.xml")
+#######face_cascade = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_frontalface_default.xml")
 #face_eye = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascade_eye_tree_eyeglasses.xml")
 
 
@@ -13,7 +22,6 @@ face_cascade = cv2.CascadeClassifier("a:/Python/MY_projects/opencv/p1/haarcascad
 #cap = cv2.VideoCapture("test.mp4")
 #cap = cv2.VideoCapture("a:/Python/MY_projects/opencv/p1/test.mp4")
 cap = cv2.VideoCapture(0)
-
 
 bool_avalin_tashkhis_face = False
 

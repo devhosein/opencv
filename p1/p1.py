@@ -70,7 +70,7 @@ while cap.isOpened:
     
 
         
-    time.sleep(0.01)
+    time.sleep(0.2)
 
                 
 cap.release()

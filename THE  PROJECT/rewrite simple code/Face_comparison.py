@@ -2,7 +2,7 @@ import os
 import cv2
 import face_recognition
 import time
-
+import pygame 
 
 # نشان دادن جای فایل بدون دادن ادرس کامل 
 dirname = os.path.dirname(__file__)
@@ -10,6 +10,12 @@ dirname = os.path.dirname(__file__)
 #filename = os.path.join(dirname, "haarcascade_frontalface_default.xml")
 #face_cascade = cv2.CascadeClassifier(filename)
 ##
+
+# سرگرمی 
+pygame.mixer.init()
+filename0 = os.path.join(dirname ,"thefun_voice.mp3")
+sound = pygame.mixer.Sound(filename0)
+
 
 # دادن ایکس ام ال به اوپن سیوی
 filename = os.path.join(dirname, "haarcascade_frontalface_default.xml")
@@ -81,11 +87,15 @@ while cap.isOpened:
         # شبیه بود
         if results[0]:
             print("same")
-            print("hello boss, very nice to meet you")
+            print("hello boss, very nice to meet you \n")
+            # سرگرمی
+            sound.play()
+            time.sleep(0.5)
+
         # یکی دیگه بود
         else:
-            print("difrent")
-            print("go away!!")
+            print("diffrent")
+            print("go away !! \n")
     # تصویر نیست و یا خرابه
     except:
         print("We do not have the face or The face is not clear !!")

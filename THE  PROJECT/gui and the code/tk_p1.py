@@ -26,6 +26,23 @@ def capture_image():
             print("Failed to capture image")
             break
         
+        height, width, _ = frame.shape
+        # محاسبه مرکز تصویر
+        center_x, center_y = width // 2, height // 2
+        # اندازه مربع
+        square_size = min(width, height) // 2
+        # تعیین نقاط بالا سمت چپ و پایین سمت راست مربع
+        top_left = (center_x - square_size // 2, center_y - square_size // 2)
+        bottom_right = (center_x + square_size // 2, center_y + square_size // 2)
+        cv2.rectangle(frame, top_left, bottom_right, (0, 0, 255), 2)
+        
+        # اضافه کردن متن به تصویر
+        text_position = (int(width / 6), int(height / 4) - 40)
+        cv2.putText(frame, "Place your face within the red square", text_position, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (225, 0, 0), 2)
+        text_position = (int(width / 4), int(height / 4) - 10)
+        cv2.putText(frame, "press space to take photo", text_position, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (225, 0, 0), 2)
+        
+        
         # نمایش پیش‌نمایش تصویر
         cv2.imshow("Capture", frame)
         

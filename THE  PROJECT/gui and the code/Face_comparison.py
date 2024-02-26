@@ -74,31 +74,37 @@ while cap.isOpened:
     filename4 = os.path.join(dirname, "frame.png")
     image2 = face_recognition.load_image_file(filename4)
 
+
+    try:
     # استخراج ویژگی‌های چهره‌ها
-    face_encoding1 = face_recognition.face_encodings(image1)[0]
+        face_encoding1 = face_recognition.face_encodings(image1)[0]
+    
     
     # جلو گیری از ارور وجود نداشتن عکس و خراب بودن عکس
-    try:
-        # گرفتن ویژگی های تصویر کمرا
-        face_encoding_camera = face_recognition.face_encodings(image2)[0]
+        try:
+            # گرفتن ویژگی های تصویر کمرا
+            face_encoding_camera = face_recognition.face_encodings(image2)[0]
         
-        # چقدر چهره ها لازمه مثل هم باشن ؟؟
-        results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.5)
-        # شبیه بود
-        if results[0]:
-            print("same")
-            print("hello boss, very nice to meet you \n")
-            # سرگرمی
-            sound.play()
-            time.sleep(0.5)
+            # چقدر چهره ها لازمه مثل هم باشن ؟؟
+            results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.5)
+            # شبیه بود
+            if results[0]:
+                print("same")
+                print("hello boss, very nice to meet you \n")
+                # سرگرمی
+                sound.play()
+                time.sleep(0.5)
 
-        # یکی دیگه بود
-        else:
-            print("diffrent")
-            print("go away !! \n")
-    # تصویر نیست و یا خرابه
+            # یکی دیگه بود
+            else:
+                print("diffrent")
+                print("go away !! \n")
+        # تصویر نیست و یا خرابه
+        except:
+            print("We do not have the face or The face is not clear !!")
+        
     except:
-        print("We do not have the face or The face is not clear !!")
+        print("the diffalt picture is very bad")
 #--------------------------------------------------------------------------------------------------------------
     # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
     time.sleep(0.2)

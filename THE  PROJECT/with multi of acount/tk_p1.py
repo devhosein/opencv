@@ -2,14 +2,7 @@ import customtkinter as tk
 import cv2
 import os
 import subprocess
-import pygame
 
-
-dirname = os.path.dirname(__file__)
-pygame.mixer.init()
-filename0 = os.path.join(dirname ,"main_music.mp3")
-sound = pygame.mixer.Sound(filename0) 
-sound.play()
 
 tk.set_appearance_mode("Dark")
 tk.set_default_color_theme("dark-blue")

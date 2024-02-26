@@ -2,7 +2,7 @@ import os
 import cv2
 import face_recognition
 import time
-import pygame 
+
 
 # نشان دادن جای فایل بدون دادن ادرس کامل 
 dirname = os.path.dirname(__file__)
@@ -10,11 +10,6 @@ dirname = os.path.dirname(__file__)
 #filename = os.path.join(dirname, "haarcascade_frontalface_default.xml")
 #face_cascade = cv2.CascadeClassifier(filename)
 ##
-
-# سرگرمی 
-pygame.mixer.init()
-filename0 = os.path.join(dirname ,"thefun_voice.mp3")
-sound = pygame.mixer.Sound(filename0)
 
 
 # دادن ایکس ام ال به اوپن سیوی
@@ -91,9 +86,7 @@ while cap.isOpened:
             if results[0]:
                 print("same")
                 print("hello boss, very nice to meet you \n")
-                # سرگرمی
-                sound.play()
-                time.sleep(0.5)
+
 
             # یکی دیگه بود
             else:

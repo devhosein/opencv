@@ -2,13 +2,45 @@ import customtkinter as tk
 import cv2
 import os
 import subprocess
-
+from PIL import Image, ImageTk
 
 tk.set_appearance_mode("Dark")
 tk.set_default_color_theme("dark-blue")
 
 root = tk.CTk()
 root.geometry("800x450")
+
+# تابع برای به‌روزرسانی تصویر دوربین در ویجت
+def update_camera_image():
+    ret, frame = cap.read()
+    if ret:
+        # تغییر اندازه تصویر برای نمایش در ویجت
+        frame = cv2.resize(frame, (200, 150))
+        # تبدیل تصویر cv2 به تصویر PIL
+        cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        pil_image = Image.fromarray(cv_image)
+        imgtk = ImageTk.PhotoImage(image=pil_image)
+        camera_label.imgtk = imgtk
+        camera_label.configure(image=imgtk)
+        camera_label.lift() # اوردن به عنوان تصویر رو
+        # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
+        camera_label.after(10, update_camera_image)
+        
+
+# ایجاد ویجت برای نمایش تصویر دوربین
+camera_label = tk.CTkLabel(root)
+camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
+
+# ایجاد ویجت برای نمایش تصویر دوربین
+camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
+camera_label.place(x=600, y=300)  # تنظیم موقعیت ویجت در پایین سمت راست
+
+
+# شروع دوربین
+cap = cv2.VideoCapture(0)
+update_camera_image()
+
+
 
 # تابع برای گرفتن عکس از دوربین وب
 def capture_image():
@@ -82,3 +114,15 @@ run_script_button = tk.CTkButton(master=frame, text="Image processing", command=
 run_script_button.pack(pady=35, padx=18)
 
 root.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,6 +7,12 @@ import threading
 import face_recognition
 from PIL import Image, ImageTk
 
+
+
+
+
+
+
 # متغیر بولین برای کنترل حلقه‌ها
 running = True
 
@@ -44,7 +50,12 @@ camera_label.place(x=600, y=300)  # تنظیم موقعیت ویجت در پای
 
 # شروع دوربین
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-update_camera_image()
+# update_camera_image()
+thread = threading.Thread(target=update_camera_image)
+thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
+thread.start()
+
+
 
 
 
@@ -96,6 +107,13 @@ def capture_image():
 
 # تابع برای اجرای کد پایتون دیگر
 def run_another_script():
+        # ایجاد یک thread دائمی
+    # thread = threading.Thread(target=update_camera_image)
+    # thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
+    # thread.start()
+
+
+
     global cap
     global running
     # # مسیر فایل اسکریپت دیگر
@@ -124,7 +142,7 @@ def run_another_script():
     bool_avalin_tashkhis_face = False
 
 
-    update_camera_image()
+    # update_camera_image()
     # وایل مدام اجرا شدن سیستم تشخیص چهره
     while running:
         
@@ -208,22 +226,11 @@ def run_another_script():
             x = ("the diffalt picture is very bad")
     #--------------------------------------------------------------------------------------------------------------
         # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
-        time.sleep(1)
+        time.sleep(2)
        
-        # جهت بستن تصویر نمایش داده شده
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            running = False
-            break
-
-
-
     
 
     # cap.release()
-    
-    
-    
-
     
     
     
@@ -265,6 +272,14 @@ run_script_button.pack(pady=35, padx=18)
 # دکمه برای توقف اسکریپت دیگر
 stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
+
+
+
+
+
+
+
+
 
 
 

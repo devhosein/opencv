@@ -16,41 +16,42 @@ tk.set_default_color_theme("dark-blue")
 root = tk.CTk()
 root.geometry("1000x600")
 
-# # تابع برای به‌روزرسانی تصویر دوربین در ویجت
-# def update_camera_image():
-#     ret, frame = cap.read()
-#     if ret:
-#         # تغییر اندازه تصویر برای نمایش در ویجت
-#         frame = cv2.resize(frame, (200, 150))
-#         # تبدیل تصویر cv2 به تصویر PIL
-#         cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#         pil_image = Image.fromarray(cv_image)
-#         imgtk = ImageTk.PhotoImage(image=pil_image)
-#         camera_label.imgtk = imgtk
-#         camera_label.configure(image=imgtk)
-#         camera_label.lift() # اوردن به عنوان تصویر رو
-#         # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
-#         camera_label.after(10, update_camera_image)
+# تابع برای به‌روزرسانی تصویر دوربین در ویجت
+def update_camera_image():
+    ret, frame = cap.read()
+    if ret:
+        # تغییر اندازه تصویر برای نمایش در ویجت
+        frame = cv2.resize(frame, (200, 150))
+        # تبدیل تصویر cv2 به تصویر PIL
+        cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        pil_image = Image.fromarray(cv_image)
+        imgtk = ImageTk.PhotoImage(image=pil_image)
+        camera_label.imgtk = imgtk
+        camera_label.configure(image=imgtk)
+        camera_label.lift() # اوردن به عنوان تصویر رو
+        # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
+        camera_label.after(10, update_camera_image)
         
 
-# # ایجاد ویجت برای نمایش تصویر دوربین
-# camera_label = tk.CTkLabel(root)
-# camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
+# ایجاد ویجت برای نمایش تصویر دوربین
+camera_label = tk.CTkLabel(root)
+camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
 
-# # ایجاد ویجت برای نمایش تصویر دوربین
-# camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
-# camera_label.place(x=600, y=300)  # تنظیم موقعیت ویجت در پایین سمت راست
+# ایجاد ویجت برای نمایش تصویر دوربین
+camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
+camera_label.place(x=600, y=300)  # تنظیم موقعیت ویجت در پایین سمت راست
 
 
-# # شروع دوربین
-# cap = cv2.VideoCapture(0)
-# update_camera_image()
+# شروع دوربین
+cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+update_camera_image()
 
 
 
 # تابع برای گرفتن عکس از دوربین وب
 def capture_image():
-    cap = cv2.VideoCapture(0)
+    global cap
+    # cap = cv2.VideoCapture(0)
     global running
     while running:
         ret, frame = cap.read()
@@ -90,11 +91,12 @@ def capture_image():
 
 
 
-    cap.release()
+    # cap.release()
     cv2.destroyAllWindows()
 
 # تابع برای اجرای کد پایتون دیگر
 def run_another_script():
+    global cap
     global running
     # # مسیر فایل اسکریپت دیگر
     # script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Face_comparison.py")
@@ -116,13 +118,13 @@ def run_another_script():
     face_cascade = cv2.CascadeClassifier(filename)
 
     # کمرا
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
 
     # یکی از متغییر های لازم برای ذخیره ی عکس 
     bool_avalin_tashkhis_face = False
 
 
-
+    update_camera_image()
     # وایل مدام اجرا شدن سیستم تشخیص چهره
     while running:
         
@@ -206,7 +208,7 @@ def run_another_script():
             x = ("the diffalt picture is very bad")
     #--------------------------------------------------------------------------------------------------------------
         # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
-        time.sleep(0.2)
+        time.sleep(1)
        
         # جهت بستن تصویر نمایش داده شده
         if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -217,7 +219,7 @@ def run_another_script():
 
     
 
-    cap.release()
+    # cap.release()
     
     
     
@@ -243,28 +245,13 @@ capture_image_button.pack(pady=35, padx=18)
 instruction_label = tk.CTkLabel(master=frame, text="Run the image processing code", font=("Roboto", 22))
 instruction_label.pack(pady=12, padx=10)
 
-# # دکمه برای اجرای اسکریپت دیگر
-# bool_code = True
-# if bool_code == True:
-#     run_script_button = tk.CTkButton(master=frame, text="Image processing", command=run_another_script)
-#     run_script_button.pack(pady=35, padx=18)
-#     bool_code = False
-
-
-
-
-# دکمه برای اجرای اسکریپت دیگر
-bool_code = True
-if bool_code == True:
-    run_script_button = tk.CTkButton(master=frame, text="Image processing", command=run_another_script)
-    run_script_button.pack(pady=35, padx=18)
-    bool_code = False
 
 
 def stop_another_script():
     global running
     running = False # این مقدار را به False تغییر دهید
-    print("kdfjaskdkjfl;ajd;lkasfjlkasjdfl;kasjfl;kasjdf;fka")
+    # print("kdfjaskdkjfl;ajd;lkasfjlkasjdfl;kasjfl;kasjdf;fka")
+    root.destroy()
     
 
 # ایجاد یک نخ برای اسکریپت دیگر
@@ -278,37 +265,6 @@ run_script_button.pack(pady=35, padx=18)
 # دکمه برای توقف اسکریپت دیگر
 stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # تابع برای توقف اسکریپت دیگر
-# def stop_another_script():
-#     frame.update_idletasks()
-#     global running # اگر از متغیر بولین برای کنترل حلقه‌ها استفاده می‌کنید
-#     running = False # این مقدار را به False تغییر دهید
-#     exit() # یا از این دستور برای خروج از برنامه استفاده کنید
-#     # به‌روزرسانی فریم
-#     frame.update_idletasks()
-
-# frame.update_idletasks()
-
-
-# # دکمه برای توقف اسکریپت دیگر
-# stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
-# stop_script_button.pack(pady=35, padx=18)
-
 
 
 

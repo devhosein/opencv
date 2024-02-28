@@ -91,6 +91,15 @@ def run_another_script():
     root.destroy()
     # اجرای اسکریپت
     subprocess.run(["python", script_path], check=True)
+    
+    process = subprocess.Popen(["C:\\Program Files\\Python312\\python.exe", "A:\\Python\\MY_projects\\opencv\\conected codes\\sc1.py"], stdout=subprocess.PIPE)
+    while True:
+        output = process.stdout.read(1)
+        if output == b"" and process.poll() is not None:
+            break
+        if output:
+            print(output.decode(), end="")
+
 
 frame = tk.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
@@ -114,8 +123,6 @@ run_script_button = tk.CTkButton(master=frame, text="Image processing", command=
 run_script_button.pack(pady=35, padx=18)
 
 root.mainloop()
-
-
 
 
 

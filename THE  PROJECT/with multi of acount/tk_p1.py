@@ -3,12 +3,12 @@ import cv2
 import os
 import subprocess
 import time
+import threading
 import face_recognition
 from PIL import Image, ImageTk
 
 # متغیر بولین برای کنترل حلقه‌ها
 running = True
-
 
 tk.set_appearance_mode("Dark")
 tk.set_default_color_theme("dark-blue")
@@ -51,7 +51,8 @@ root.geometry("1000x600")
 # تابع برای گرفتن عکس از دوربین وب
 def capture_image():
     cap = cv2.VideoCapture(0)
-    while True:
+    global running
+    while running:
         ret, frame = cap.read()
         if not ret:
             print("Failed to capture image")
@@ -86,10 +87,7 @@ def capture_image():
             print(f"Image captured and saved as '{image_path}'")
             break
         
-        # جهت بستن تصویر نمایش داده شده
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            running = False
-            break
+
 
 
     cap.release()
@@ -97,6 +95,7 @@ def capture_image():
 
 # تابع برای اجرای کد پایتون دیگر
 def run_another_script():
+    global running
     # # مسیر فایل اسکریپت دیگر
     # script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Face_comparison.py")
     # # # بستن پنجره رابط کاربری
@@ -125,7 +124,7 @@ def run_another_script():
 
 
     # وایل مدام اجرا شدن سیستم تشخیص چهره
-    while cap.isOpened:
+    while running:
         
         # جهت بستن تصویر نمایش داده شده
         if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -251,6 +250,9 @@ instruction_label.pack(pady=12, padx=10)
 #     run_script_button.pack(pady=35, padx=18)
 #     bool_code = False
 
+
+
+
 # دکمه برای اجرای اسکریپت دیگر
 bool_code = True
 if bool_code == True:
@@ -258,15 +260,55 @@ if bool_code == True:
     run_script_button.pack(pady=35, padx=18)
     bool_code = False
 
+
+def stop_another_script():
+    global running
+    running = False # این مقدار را به False تغییر دهید
+    print("kdfjaskdkjfl;ajd;lkasfjlkasjdfl;kasjfl;kasjdf;fka")
+    
+
+# ایجاد یک نخ برای اسکریپت دیگر
+thread = threading.Thread(target=run_another_script)
+
+
+# دکمه برای اجرای اسکریپت دیگر
+run_script_button = tk.CTkButton(master=frame, text="Run script", command=thread.start)
+run_script_button.pack(pady=35, padx=18)
+
 # دکمه برای توقف اسکریپت دیگر
-stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=run_another_script)
+stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
 
-# تابع برای توقف اسکریپت دیگر
-def stop_another_script():
-    global running # اگر از متغیر بولین برای کنترل حلقه‌ها استفاده می‌کنید
-    running = False # این مقدار را به False تغییر دهید
-    exit() # یا از این دستور برای خروج از برنامه استفاده کنید
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # تابع برای توقف اسکریپت دیگر
+# def stop_another_script():
+#     frame.update_idletasks()
+#     global running # اگر از متغیر بولین برای کنترل حلقه‌ها استفاده می‌کنید
+#     running = False # این مقدار را به False تغییر دهید
+#     exit() # یا از این دستور برای خروج از برنامه استفاده کنید
+#     # به‌روزرسانی فریم
+#     frame.update_idletasks()
+
+# frame.update_idletasks()
+
+
+# # دکمه برای توقف اسکریپت دیگر
+# stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
+# stop_script_button.pack(pady=35, padx=18)
+
 
 
 

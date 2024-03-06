@@ -9,10 +9,6 @@ from PIL import Image, ImageTk
 
 
 
-
-
-
-
 # متغیر بولین برای کنترل حلقه‌ها
 running = True
 
@@ -22,6 +18,8 @@ tk.set_default_color_theme("dark-blue")
 root = tk.CTk()
 root.geometry("1000x600")
 
+
+####----
 # تابع برای به‌روزرسانی تصویر دوربین در ویجت
 def update_camera_image():
     ret, frame = cap.read()
@@ -45,7 +43,7 @@ camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را 
 
 # ایجاد ویجت برای نمایش تصویر دوربین
 camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
-camera_label.place(x=600, y=300)  # تنظیم موقعیت ویجت در پایین سمت راست
+camera_label.place(x=800, y=450)  # تنظیم موقعیت ویجت در پایین سمت راست
 
 
 # شروع دوربین
@@ -54,11 +52,10 @@ cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 thread = threading.Thread(target=update_camera_image)
 thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
 thread.start()
+####----
 
 
-
-
-
+####----
 # تابع برای گرفتن عکس از دوربین وب
 def capture_image():
     global cap
@@ -86,7 +83,6 @@ def capture_image():
         text_position = (int(width / 4), int(height / 4) - 10)
         cv2.putText(frame, "press space to take photo", text_position, cv2.FONT_HERSHEY_SIMPLEX, 0.8, (225, 0, 0), 2)
         
-        
         # نمایش پیش‌نمایش تصویر
         cv2.imshow("Capture", frame)
         
@@ -100,49 +96,25 @@ def capture_image():
             break
         
 
-
-
     # cap.release()
     cv2.destroyAllWindows()
+####----
 
-# تابع برای اجرای کد پایتون دیگر
+#######-------
+# main code 
 def run_another_script():
-        # ایجاد یک thread دائمی
-    # thread = threading.Thread(target=update_camera_image)
-    # thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
-    # thread.start()
-
-
-
     global cap
     global running
-    # # مسیر فایل اسکریپت دیگر
-    # script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Face_comparison.py")
-    # # # بستن پنجره رابط کاربری
-    # # root.destroy()
-    # # اجرای اسکریپت
-    # subprocess.run(["python", script_path], check=True)
     
-    # نشان دادن جای فایل بدون دادن ادرس کامل 
     dirname = os.path.dirname(__file__)
-    ##
-    #filename = os.path.join(dirname, "haarcascade_frontalface_default.xml")
-    #face_cascade = cv2.CascadeClassifier(filename)
-    ##
-
 
     # دادن ایکس ام ال به اوپن سیوی
     filename = os.path.join(dirname, "haarcascade_frontalface_default.xml")
     face_cascade = cv2.CascadeClassifier(filename)
 
-    # کمرا
-    # cap = cv2.VideoCapture(0)
-
     # یکی از متغییر های لازم برای ذخیره ی عکس 
     bool_avalin_tashkhis_face = False
 
-
-    # update_camera_image()
     # وایل مدام اجرا شدن سیستم تشخیص چهره
     while running:
         
@@ -157,24 +129,6 @@ def run_another_script():
         faces = face_cascade.detectMultiScale(gray, 1.1 , 8)
         # face_for_eye = face_eye.detectMultiScale(gray, 1.1, 8)
 
-
-    # نشان دادن چهره و دور چهره خط کشیدن
-    #-------------------------------------------------------------------------------------------
-        # for (x, y ,w ,h) in faces:
-        #     cv2.rectangle(img, (x,y), ( x+w , y+h), (255,0,0) , 3)
-        #     cv2.putText(img, "face", (x+3, y+30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-        # for (x, y , w, h) in face_for_eye:
-        #     cv2.rectangle(img , (x,y), (x+w , y+h), (0,0,255),3)
-        
-    #     کد نشان دادن تصویر
-    #    cv2.imshow("img", img)
-
-    #    جهت بستن تصویر نمایش داده شده
-        # if cv2.waitKey(1) & 0xFF == ord("q"):
-        #     break
-    #-------------------------------------------------------------------------------------------
-        
-        
         # گرفتن عکس و ذخیره کردن عکس پشت سر هم ... 
         if len(faces) > 0:
             bool_avalin_tashkhis_face = True
@@ -184,7 +138,6 @@ def run_another_script():
             filename2 = os.path.join(dirname, "frame.png")
             if result:
                 cv2.imwrite(filename2, img)
-                
                 
         # مقایسه دو چهره
     #-------------------------------------------------------------------------------------------------------------
@@ -213,7 +166,6 @@ def run_another_script():
                     print("same")
                     print("hello boss, very nice to meet you \n")
 
-
                 # یکی دیگه بود
                 else:
                     x = print("diffrent")
@@ -227,14 +179,13 @@ def run_another_script():
     #--------------------------------------------------------------------------------------------------------------
         # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
         time.sleep(2)
-       
-    
-
+        
     # cap.release()
-    
-    
+######------
     
 
+####----
+# محیط گرافیکی    
 frame = tk.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
 
@@ -272,25 +223,12 @@ run_script_button.pack(pady=35, padx=18)
 # دکمه برای توقف اسکریپت دیگر
 stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
+####-----
 
 
 
-
-
-
-
-
-
-
-
+# run
 root.mainloop()
-
-
-
-
-
-
-
 
 
 

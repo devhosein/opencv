@@ -113,6 +113,31 @@ def capture_image():
     cv2.destroyAllWindows()
 ####----
 
+# def output_def():
+#     global dirname
+#     # فرض می‌کنیم که dirname مسیر پوشه‌ای است که فایل tk_p1.py در آن قرار دارد
+#     print("1")
+#     filename6 = os.path.join(dirname, "tk_p1.py")
+#     command = f'python "{filename6}"'
+#     print("2")
+#     # اجرای دستور و ضبط خروجی
+#     process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+#     print("3")
+#     # مقداردهی اولیه متغیر برای ذخیره آخرین خروجی
+#     latest_output = ""
+#     print("4")
+    
+#     # خواندن خط بعدی خروجی از برنامه
+#     output = process.stdout.readline()
+#     print("5")
+#     # اگر خروجی وجود دارد، آن را رمزگشایی کرده و در متغیر ذخیره کنید
+#     if output:
+#         print("6")
+#         latest_output = output.strip().decode('utf-8')
+#         print("7")
+#         print(f"آخرین خروجی: {latest_output}")
+#         print("ok")
+
 
 #######-------
 # main code 

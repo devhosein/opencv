@@ -10,8 +10,7 @@ import random
 from tkinter.scrolledtext import ScrolledText
 import sys
 
-dirname = os.path.dirname(__file__)
-zero = True
+
 
 # متغیر بولین برای کنترل حلقه‌ها
 running = True
@@ -22,7 +21,6 @@ tk.set_default_color_theme("dark-blue")
 root = tk.CTk()
 root.geometry("1000x600")
 
-x =""
 
 ####----
 # تابع برای به‌روزرسانی تصویر دوربین در ویجت
@@ -113,15 +111,12 @@ def capture_image():
     cv2.destroyAllWindows()
 ####----
 
-
 #######-------
 # main code 
 def run_another_script():
     global cap
     global running
     global image2
-    global x
-    global zero
     
     dirname = os.path.dirname(__file__)
 
@@ -180,12 +175,12 @@ def run_another_script():
                 results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.5)
                 # شبیه بود
                 if results[0]:
-                    x = ("same")
-                    x = ("hello boss, very nice to meet you \n")
+                    print("same")
+                    print("hello boss, very nice to meet you \n")
 
                 # یکی دیگه بود
                 else:
-                    x = ("diffrent")
+                    x = print("diffrent")
                     x = ("go away !! \n")
             # تصویر نیست و یا خرابه
             except:
@@ -194,16 +189,6 @@ def run_another_script():
         except:
             x = ("the diffalt picture is very bad")
     #--------------------------------------------------------------------------------------------------------------
-        print(x)
-        # output_def()
-        
-        if zero:
-            label12 = tk.CTkLabel(master=frame, text=x, font=("Roboto", 22))
-            label12.pack(pady=12, padx=10)
-            zero = False
-        else:
-            label12.configure(text=x)
-        
         # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
         time.sleep(2)
 
@@ -253,6 +238,10 @@ run_script_button.pack(pady=35, padx=18)
 stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
 ####-----
+
+
+
+
 
 
 

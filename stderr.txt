@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "a:\Python\MY_projects\opencv\THE  PROJECT\with multi of acount\hide\Face_comparison.py", line 154, in <module>
+    redirect_to_widget(text_area)
+  File "a:\Python\MY_projects\opencv\THE  PROJECT\with multi of acount\hide\Face_comparison.py", line 138, in redirect_to_widget
+    line = sys.stdout.readline()
+           ^^^^^^^^^^^^^^^^^^^^^
+io.UnsupportedOperation: not readable

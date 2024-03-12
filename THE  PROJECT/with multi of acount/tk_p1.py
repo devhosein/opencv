@@ -6,6 +6,9 @@ import time
 import threading
 import face_recognition
 from PIL import Image, ImageTk
+import random
+from tkinter.scrolledtext import ScrolledText
+import sys
 
 
 
@@ -22,6 +25,7 @@ root.geometry("1000x600")
 ####----
 # تابع برای به‌روزرسانی تصویر دوربین در ویجت
 def update_camera_image():
+    global image2
     ret, frame = cap.read()
     if ret:
         # تغییر اندازه تصویر برای نمایش در ویجت
@@ -35,6 +39,13 @@ def update_camera_image():
         camera_label.lift() # اوردن به عنوان تصویر رو
         # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
         camera_label.after(10, update_camera_image)
+        
+        # تصویر ذخیره شده توسط کمرا
+        dirname = os.path.dirname(__file__)
+        filename4 = os.path.join(dirname, "frame.png")
+        image2 = face_recognition.load_image_file(filename4)
+
+
         
 
 # ایجاد ویجت برای نمایش تصویر دوربین
@@ -105,6 +116,7 @@ def capture_image():
 def run_another_script():
     global cap
     global running
+    global image2
     
     dirname = os.path.dirname(__file__)
 
@@ -144,9 +156,9 @@ def run_another_script():
         # بارگذاری تصاویر چهره ها
         filename3 = os.path.join(dirname, "image (1).jpg")
         image1 = face_recognition.load_image_file(filename3)
-        # تصویر ذخیره شده توسط کمرا
-        filename4 = os.path.join(dirname, "frame.png")
-        image2 = face_recognition.load_image_file(filename4)
+        # # تصویر ذخیره شده توسط کمرا
+        # filename4 = os.path.join(dirname, "frame.png")
+        # image2 = face_recognition.load_image_file(filename4)
 
 
         try:
@@ -179,7 +191,9 @@ def run_another_script():
     #--------------------------------------------------------------------------------------------------------------
         # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
         time.sleep(2)
-        
+
+    
+    
     # cap.release()
 ######------
     
@@ -224,6 +238,11 @@ run_script_button.pack(pady=35, padx=18)
 stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
 ####-----
+
+
+
+
+
 
 
 

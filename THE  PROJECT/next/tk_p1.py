@@ -21,6 +21,7 @@ tk.set_default_color_theme("dark-blue")
 
 root = tk.CTk()
 root.geometry("1000x600")
+root.title("image prossing program")
 
 x =""
 
@@ -117,12 +118,8 @@ def capture_image():
 #######-------
 # main code 
 def run_another_script():
-    global cap
-    global running
-    global image2
-    global x
-    global zero
-    
+    global cap, zero ,x, image2, running
+
     dirname = os.path.dirname(__file__)
 
     # دادن ایکس ام ال به اوپن سیوی
@@ -212,6 +209,55 @@ def run_another_script():
     # cap.release()
 ######------
     
+    
+##-------------------------------------------------------------------------------------------
+# پنجره ی ساخت اکانت جدید
+def save_data():
+    # این تابع مقادیر ورودی را در متغیرهای جهانی ذخیره می‌کند
+    global user_text, user_number ,text_entry ,number_entry, new_window
+    user_text = text_entry.get()
+    user_number = number_entry.get()
+    print("متن ذخیره شده:", user_text)
+    print("عدد ذخیره شده:", user_number)
+    #بستن پنجره جدید
+    new_window.destroy()
+    # عکس گرفتن
+    capture_image()
+
+
+def create_new_window():
+    global user_text, user_number ,text_entry ,number_entry , new_window
+    new_window = tk.CTkToplevel()
+    new_window.title("new win")
+    new_window.geometry("600x450")  # اندازه پنجره جدید را تنظیم می‌کند
+    new_window.grab_set()  # این خط باعث می‌شود که پنجره جدید تمرکز کاربر را به خود جلب کند
+    new_window.focus_set()  # این خط پنجره جدید را در مرکز توجه قرار می‌دهد
+    tk.CTkLabel(new_window, text="this is a new win", font=("Roboto", 22)).pack(pady=12, padx=10)
+    
+    
+    label = tk.CTkLabel(new_window, text="creat new acount", font=("Roboto", 22))
+    label.pack(pady=12, padx=10)
+
+    # ایجاد ویجت ورودی برای متن
+    text_entry = tk.CTkEntry(new_window, placeholder_text="enter your name:", font=("Roboto", 22))
+    text_entry.pack(pady=12, padx=10)
+
+    # ایجاد ویجت ورودی برای عدد
+    number_entry = tk.CTkEntry(new_window, placeholder_text="enter text:",font=("Roboto", 22))
+    number_entry.pack(pady=12, padx=10)
+
+    # ایجاد دکمه برای ذخیره‌سازی داده‌ها
+    save_button = tk.CTkButton(new_window, text="save and take the photo",font=("Roboto", 22), command=save_data)
+    save_button.pack(pady=12, padx=10)
+    
+
+# new_acuont = tk.CTkButton(root, text="open a new win", command=create_new_window)
+# new_acuont.pack(pady= 35, padx = 18 )
+
+##----------------------------------------------------------------------------------------------------
+
+
+
 
 ####----
 # محیط گرافیکی    
@@ -222,11 +268,15 @@ labe0 = tk.CTkLabel(master=frame, text="Wellcom to BALOO Application", font=("Ro
 labe0.pack(pady=12, padx=10)
 
 
-label = tk.CTkLabel(master=frame, text="Take the default picture for image processing", font=("Roboto", 22))
+label = tk.CTkLabel(master=frame, text="press botton to creat new acount", font=("Roboto", 22))
 label.pack(pady=12, padx=10)
 
-capture_image_button = tk.CTkButton(master=frame, text="Capture Image", command=capture_image)
-capture_image_button.pack(pady=35, padx=18)
+# capture_image_button = tk.CTkButton(master=frame, text="Capture Image", command=capture_image)
+# capture_image_button.pack(pady=35, padx=18)
+
+new_acuont = tk.CTkButton(master=frame, text="open a new win", command=create_new_window)
+new_acuont.pack(pady= 35, padx = 18 )
+
 
 # متن قبل از دکمه
 instruction_label = tk.CTkLabel(master=frame, text="Run the image processing code", font=("Roboto", 22))
@@ -253,58 +303,6 @@ run_script_button.pack(pady=35, padx=18)
 stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
 stop_script_button.pack(pady=35, padx=18)
 ####-----
-
-
-##-------------------------------------------------------------------------------------------
-# پنجره ی ساخت اکانت جدید
-
-def save_data():
-    # این تابع مقادیر ورودی را در متغیرهای جهانی ذخیره می‌کند
-    global user_text, user_number ,text_entry ,number_entry, new_window
-    user_text = text_entry.get()
-    user_number = number_entry.get()
-    print("متن ذخیره شده:", user_text)
-    print("عدد ذخیره شده:", user_number)
-    #بستن پنجره جدید
-    new_window.destroy()
-    # عکس گرفتن
-    capture_image()
-
-
-def create_new_window():
-    global user_text, user_number ,text_entry ,number_entry , new_window
-    new_window = tk.CTkToplevel()
-    new_window.title("new win")
-    new_window.geometry("300x200")  # اندازه پنجره جدید را تنظیم می‌کند
-    new_window.grab_set()  # این خط باعث می‌شود که پنجره جدید تمرکز کاربر را به خود جلب کند
-    new_window.focus_set()  # این خط پنجره جدید را در مرکز توجه قرار می‌دهد
-    tk.CTkLabel(new_window, text="this is a new win").pack()
-    
-    
-    label = tk.CTkLabel(new_window, text="new text")
-    label.pack()
-    
-    button = tk.CTkButton(new_window, text="close the win", command=new_window.destroy)
-    button.pack()
-    
-    # ایجاد ویجت ورودی برای متن
-    text_entry = tk.CTkEntry(new_window, placeholder_text="enter text:")
-    text_entry.pack()
-
-    # ایجاد ویجت ورودی برای عدد
-    number_entry = tk.CTkEntry(new_window, placeholder_text="enter text:")
-    number_entry.pack()
-
-    # ایجاد دکمه برای ذخیره‌سازی داده‌ها
-    save_button = tk.CTkButton(new_window, text="save and take the photo", command=save_data)
-    save_button.pack()
-    
-
-new_acuont = tk.CTkButton(root, text="open a new win", command=create_new_window)
-new_acuont.pack(pady= 35, padx = 18 )
-
-##----------------------------------------------------------------------------------------------------
-
 
 
 

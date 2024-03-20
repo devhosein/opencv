@@ -104,7 +104,7 @@ def capture_image():
         if cv2.waitKey(1) == 32: # 32 کد ASCII برای کلید اسپیس است
             # ذخیره تصویر در مسیر فایل پایتون اصلی
             current_path = os.path.dirname(os.path.abspath(__file__))
-            current_path += "\\acounts\\"
+            current_path += "\\accounts\\"
             image_path = os.path.join(current_path, f"{name_text}.jpg")
             cv2.imwrite(image_path, frame)
             print(f"Image captured and saved as '{image_path}'")
@@ -119,7 +119,7 @@ def capture_image():
 #######-------
 # main code 
 def run_another_script():
-    global cap, zero ,x, image2, running
+    global cap, zero ,x, image2, running, name_text
 
     dirname = os.path.dirname(__file__)
 
@@ -156,55 +156,153 @@ def run_another_script():
                 
         # مقایسه دو چهره
     #-------------------------------------------------------------------------------------------------------------
-        # بارگذاری تصاویر چهره ها
-        filename3 = os.path.join(dirname, "image (1).jpg")
-        image1 = face_recognition.load_image_file(filename3)
-        # تصویر ذخیره شده توسط کمرا
+        # # بارگذاری تصاویر چهره ها
+        # filename3 = os.path.join(dirname + "\\acounts\\", f"{name_text}")
+        # image1 = face_recognition.load_image_file(filename3)
+        # # تصویر ذخیره شده توسط کمرا
+        # filename4 = os.path.join(dirname, "frame.png")
+        # image2 = face_recognition.load_image_file(filename4)
+
+
+        # try:
+        # # استخراج ویژگی‌های چهره‌ها
+        #     face_encoding1 = face_recognition.face_encodings(image1)[0]
+        
+        
+        # # جلو گیری از ارور وجود نداشتن عکس و خراب بودن عکس
+        #     try:
+        #         # گرفتن ویژگی های تصویر کمرا
+        #         face_encoding_camera = face_recognition.face_encodings(image2)[0]
+            
+        #         # چقدر چهره ها لازمه مثل هم باشن ؟؟
+        #         results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.5)
+        #         # شبیه بود
+        #         if results[0]:
+        #             x = ("same")
+        #             x = ("hello boss, very nice to meet you \n")
+
+        #         # یکی دیگه بود
+        #         else:
+        #             x = ("diffrent")
+        #             x = ("go away !! \n")
+        #     # تصویر نیست و یا خرابه
+        #     except:
+        #         x = ("We do not have the face or The face is not clear !!")
+            
+        # except:
+        #     x = ("the diffalt picture is very bad")
+        
+        
+        
+    #     # مسیر تصویر ذخیره شده توسط دوربین
+    #     filename4 = os.path.join(dirname, "frame.png")
+    #     image2 = face_recognition.load_image_file(filename4)
+
+    #     try:
+    #         # استخراج ویژگی‌های چهره‌ها از تصویر دوربین
+    #         face_encoding_camera = face_recognition.face_encodings(image2)[0]
+
+    #         # مسیر پوشه حاوی تصاویر حساب‌ها
+    #         accounts_folder_path = os.path.join(dirname, "accounts")
+
+    #         # پیمایش تمام فایل‌های تصویر در پوشه 'accounts'
+    #         for image_file in os.listdir(accounts_folder_path):
+    #             image_path = os.path.join(accounts_folder_path, image_file)
+    #             try:
+    #                 # بارگذاری تصویر و استخراج ویژگی‌های چهره
+    #                 image1 = face_recognition.load_image_file(image_path)
+    #                 face_encoding1 = face_recognition.face_encodings(image1)[0]
+
+    #                 # مقایسه چهره‌ها
+    #                 results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.5)
+
+    #                 # بررسی نتایج و چاپ پیام متناسب
+    #                 if results[0]:
+    #                     x= print(f"{image_file}")
+    #                 # else:
+    #                 #     x = print(f"")
+
+    #             except IndexError:
+    #                 # اگر چهره‌ای در تصویر یافت نشود یا تصویر واضح نباشد
+    #                 x =print(f"در تصویر {image_file} چهره‌ای یافت نشد یا چهره واضح نیست.")
+
+    #     except Exception as e:
+    #         # چاپ خطا در صورت بروز مشکل
+    #         x =print(f"خطایی رخ داده است: {e}")
+                
+  
+    # #--------------------------------------------------------------------------------------------------------------
+    #     print(x)
+    #     # output_def()
+        
+    #     if zero:
+    #         label12 = tk.CTkLabel(master=frame, text=x, font=("Roboto", 22))
+    #         label12.pack(pady=12, padx=10)
+    #         zero = False
+    #     else:
+    #         label12.configure(text=x)
+        
+    #     # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
+    #     time.sleep(2)
+
+
+        # مسیر تصویر ذخیره شده توسط دوربین
         filename4 = os.path.join(dirname, "frame.png")
         image2 = face_recognition.load_image_file(filename4)
 
+        # مقداردهی اولیه x با یک رشته خالی
+        x = ""
 
         try:
-        # استخراج ویژگی‌های چهره‌ها
-            face_encoding1 = face_recognition.face_encodings(image1)[0]
-        
-        
-        # جلو گیری از ارور وجود نداشتن عکس و خراب بودن عکس
-            try:
-                # گرفتن ویژگی های تصویر کمرا
-                face_encoding_camera = face_recognition.face_encodings(image2)[0]
-            
-                # چقدر چهره ها لازمه مثل هم باشن ؟؟
-                results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.5)
-                # شبیه بود
-                if results[0]:
-                    x = ("same")
-                    x = ("hello boss, very nice to meet you \n")
+            # استخراج ویژگی‌های چهره از تصویر دوربین
+            face_encoding_camera = face_recognition.face_encodings(image2)[0]
 
-                # یکی دیگه بود
-                else:
-                    x = ("diffrent")
-                    x = ("go away !! \n")
-            # تصویر نیست و یا خرابه
-            except:
-                x = ("We do not have the face or The face is not clear !!")
+            # مسیر پوشه حاوی تصاویر حساب‌ها
+            accounts_folder_path = os.path.join(dirname, "accounts")
+
+            # پیمایش تمام فایل‌های تصویر در پوشه 'accounts'
+            for image_file in os.listdir(accounts_folder_path):
+                image_path = os.path.join(accounts_folder_path, image_file)
+                try:
+                    # بارگذاری تصویر و استخراج ویژگی‌های چهره
+                    image1 = face_recognition.load_image_file(image_path)
+                    face_encoding1 = face_recognition.face_encodings(image1)[0]
+
+                    # مقایسه چهره‌ها
+                    results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.4)
+
+                    # بررسی نتایج و تنظیم پیام مناسب
+                    if results[0]:
+                        x += f"{image_file} matches.\n"
+                    # else:
+                    #     x += f"{image_file} does not match.\n"
+
+                except IndexError:
+                    # اگر چهره‌ای در تصویر یافت نشود یا تصویر واضح نباشد
+                    x += f"No face found or the face is not clear in {image_file}.\n"
+                    
+
+        except Exception as e:
+            # چاپ خطا در صورت بروز مشکل
+            x += f"An error occurred: {e}\n"
             
-        except:
-            x = ("the diffalt picture is very bad")
-    #--------------------------------------------------------------------------------------------------------------
-        print(x)
-        # output_def()
-        
+
+        # چاپ نتیجه یا به‌روزرسانی متن لیبل
         if zero:
             label12 = tk.CTkLabel(master=frame, text=x, font=("Roboto", 22))
             label12.pack(pady=12, padx=10)
             zero = False
         else:
             label12.configure(text=x)
-        
-        # خوابوندن تایم برای اینکه سیستم اذیت نشه یه وقت !!
-        time.sleep(2)
 
+        # خواباندن برنامه برای جلوگیری از اذیت شدن سیستم
+        time.sleep(1)
+
+            
+            
+            
+    
+    
     
     
     # cap.release()

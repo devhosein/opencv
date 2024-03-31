@@ -263,7 +263,7 @@ def run_another_script():
 
             # پیمایش تمام فایل‌های تصویر در پوشه 'accounts'
             for image_file in os.listdir(accounts_folder_path):
-                image_path = os.path.join(accounts_folder_path, image_file)
+                
                 try:
                     # بارگذاری تصویر و استخراج ویژگی‌های چهره
                     # image1 = face_recognition.load_image_file(image_path)

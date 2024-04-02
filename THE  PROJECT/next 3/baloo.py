@@ -27,48 +27,48 @@ root.title("image prossing program")
 
 x =""
 
-# ###----
-#  # تابع برای به‌روزرسانی تصویر دوربین در ویجت
-# def update_camera_image():
-#     global image2
-#     ret, frame = cap.read()
-#     if ret:
-#         # تغییر اندازه تصویر برای نمایش در ویجت
-#         frame = cv2.resize(frame, (200, 150))
-#         # تبدیل تصویر cv2 به تصویر PIL
-#         cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-#         pil_image = Image.fromarray(cv_image)
-#         imgtk = ImageTk.PhotoImage(image=pil_image)
-#         camera_label.imgtk = imgtk
-#         camera_label.configure(image=imgtk)
-#         camera_label.lift() # اوردن به عنوان تصویر رو
-#         # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
-#         camera_label.after(10, update_camera_image)
+###----
+ # تابع برای به‌روزرسانی تصویر دوربین در ویجت
+def update_camera_image():
+    global image2
+    ret, frame = cap.read()
+    if ret:
+        # تغییر اندازه تصویر برای نمایش در ویجت
+        frame = cv2.resize(frame, (200, 150))
+        # تبدیل تصویر cv2 به تصویر PIL
+        cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        pil_image = Image.fromarray(cv_image)
+        imgtk = ImageTk.PhotoImage(image=pil_image)
+        camera_label.imgtk = imgtk
+        camera_label.configure(image=imgtk)
+        camera_label.lift() # اوردن به عنوان تصویر رو
+        # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
+        camera_label.after(10, update_camera_image)
         
-#         # # تصویر ذخیره شده توسط کمرا
-#         # dirname = os.path.dirname(__file__)
-#         # filename4 = os.path.join(dirname, "frame.png")
-#         # image2 = face_recognition.load_image_file(filename4)
+        # # تصویر ذخیره شده توسط کمرا
+        # dirname = os.path.dirname(__file__)
+        # filename4 = os.path.join(dirname, "frame.png")
+        # image2 = face_recognition.load_image_file(filename4)
 
 
         
 
-# # ایجاد ویجت برای نمایش تصویر دوربین
-# camera_label = tk.CTkLabel(root)
-# camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
+# ایجاد ویجت برای نمایش تصویر دوربین
+camera_label = tk.CTkLabel(root)
+camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
 
-# # ایجاد ویجت برای نمایش تصویر دوربین
-# camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
-# camera_label.place(x=800, y=450)  # تنظیم موقعیت ویجت در پایین سمت راست
+# ایجاد ویجت برای نمایش تصویر دوربین
+camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
+camera_label.place(x=800, y=450)  # تنظیم موقعیت ویجت در پایین سمت راست
 
 
-# # # شروع دوربین
+# # شروع دوربین
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-# # update_camera_image()
-# thread = threading.Thread(target=update_camera_image)
-# thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
-# thread.start()
-# ####----
+# update_camera_image()
+thread = threading.Thread(target=update_camera_image)
+thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
+thread.start()
+####----
 
 
 ####----
@@ -126,7 +126,7 @@ def capture_image():
             cv2.imwrite(image_path, frame)
             print(f"Image captured and saved as '{numn}'")
             
-            time.sleep(1)
+            # time.sleep(1)
             
             filename_face_accounts = os.path.join(dirname + "\\accounts\\" ,f"{numn}.jpg")
             image1 = face_recognition.load_image_file(filename_face_accounts)
@@ -135,6 +135,7 @@ def capture_image():
             face_encoding1 = face_encoding1.replace("\n", "")
             face_encoding1 = face_encoding1.replace("[array(" , "")
             face_encoding1 = face_encoding1.replace(")]" , "")
+            
             
                 
             # json
@@ -325,9 +326,9 @@ def run_another_script():
                 
                 try:
                     face_encoding1 = eval(face_code)
-                    print(type(face_encoding1))
+                    # print(type(face_encoding1))
                     # # face_encoding1 = [float(value) for value in face_encoding1]
-                    print((face_encoding1))
+                    # print((face_encoding1))
                     
                     
     #                 face_encoding1 = [-0.11280267,  0.14145838,  0.08018201, -0.00721943, -0.08341715,
@@ -385,7 +386,7 @@ def run_another_script():
             label12.configure(text=x)
 
         # خواباندن برنامه برای جلوگیری از اذیت شدن سیستم
-        time.sleep(1)
+        # time.sleep(1)
 
         
     # cap.release()

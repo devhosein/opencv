@@ -337,6 +337,7 @@ instruction_label = tk.CTkLabel(master=frame, text="Run the image processing cod
 instruction_label.pack(pady=12, padx=10)
 
 
+
 def stop_another_script():
     global running
     running = False # این مقدار را به False تغییر دهید

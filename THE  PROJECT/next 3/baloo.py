@@ -27,54 +27,55 @@ root.title("image prossing program")
 
 x =""
 
-###----
- # تابع برای به‌روزرسانی تصویر دوربین در ویجت
-def update_camera_image():
-    global image2
-    ret, frame = cap.read()
-    if ret:
-        # تغییر اندازه تصویر برای نمایش در ویجت
-        frame = cv2.resize(frame, (200, 150))
-        # تبدیل تصویر cv2 به تصویر PIL
-        cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        pil_image = Image.fromarray(cv_image)
-        imgtk = ImageTk.PhotoImage(image=pil_image)
-        camera_label.imgtk = imgtk
-        camera_label.configure(image=imgtk)
-        camera_label.lift() # اوردن به عنوان تصویر رو
-        # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
-        camera_label.after(10, update_camera_image)
+# ###----
+#  # تابع برای به‌روزرسانی تصویر دوربین در ویجت
+# def update_camera_image():
+#     global image2
+#     ret, frame = cap.read()
+#     if ret:
+#         # تغییر اندازه تصویر برای نمایش در ویجت
+#         frame = cv2.resize(frame, (200, 150))
+#         # تبدیل تصویر cv2 به تصویر PIL
+#         cv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+#         pil_image = Image.fromarray(cv_image)
+#         imgtk = ImageTk.PhotoImage(image=pil_image)
+#         camera_label.imgtk = imgtk
+#         camera_label.configure(image=imgtk)
+#         camera_label.lift() # اوردن به عنوان تصویر رو
+#         # تنظیم تایمر برای به‌روزرسانی مجدد تصویر
+#         camera_label.after(10, update_camera_image)
         
-        # # تصویر ذخیره شده توسط کمرا
-        # dirname = os.path.dirname(__file__)
-        # filename4 = os.path.join(dirname, "frame.png")
-        # image2 = face_recognition.load_image_file(filename4)
+#         # # تصویر ذخیره شده توسط کمرا
+#         # dirname = os.path.dirname(__file__)
+#         # filename4 = os.path.join(dirname, "frame.png")
+#         # image2 = face_recognition.load_image_file(filename4)
 
 
         
 
-# ایجاد ویجت برای نمایش تصویر دوربین
-camera_label = tk.CTkLabel(root)
-camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
+# # ایجاد ویجت برای نمایش تصویر دوربین
+# camera_label = tk.CTkLabel(root)
+# camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
 
-# ایجاد ویجت برای نمایش تصویر دوربین
-camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
-camera_label.place(x=800, y=450)  # تنظیم موقعیت ویجت در پایین سمت راست
+# # ایجاد ویجت برای نمایش تصویر دوربین
+# camera_label = tk.CTkLabel(root, text="")  # حذف متن پیش‌فرض با قرار دادن یک رشته خالی
+# camera_label.place(x=800, y=450)  # تنظیم موقعیت ویجت در پایین سمت راست
 
 
-# # شروع دوربین
+# # # شروع دوربین
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-# update_camera_image()
-thread = threading.Thread(target=update_camera_image)
-thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
-thread.start()
-####----
+# # update_camera_image()
+# thread = threading.Thread(target=update_camera_image)
+# thread.daemon = True  # این باعث می‌شود که thread با بسته شدن برنامه خاتمه یابد
+# thread.start()
+# ####----
 
 
 ####----
 # تابع برای گرفتن عکس از دوربین وب
+numn = None
 def capture_image():
-    global cap , name_text, dirname, x
+    global cap , name_text, dirname, numn
     # cap = cv2.VideoCapture(0)
     global running
     while running:
@@ -116,18 +117,18 @@ def capture_image():
             last_id = data["accounts"][-1]["id"]
 
             # افزودن یک به عدد یافته
-            x = last_id + 1
+            numn = last_id + 1
 
             # ذخیره تصویر در مسیر فایل پایتون اصلی
             current_path = os.path.dirname(os.path.abspath(__file__))
             current_path += "\\accounts\\"
-            image_path = os.path.join(current_path, f"{x}.jpg")
+            image_path = os.path.join(current_path, f"{numn}.jpg")
             cv2.imwrite(image_path, frame)
-            print(f"Image captured and saved as '{x}'")
+            print(f"Image captured and saved as '{numn}'")
             
             time.sleep(1)
             
-            filename_face_accounts = os.path.join(dirname + "\\accounts\\" ,f"{x}.jpg")
+            filename_face_accounts = os.path.join(dirname + "\\accounts\\" ,f"{numn}.jpg")
             image1 = face_recognition.load_image_file(filename_face_accounts)
             face_encoding1 = face_recognition.face_encodings(image1)
             face_encoding1 = str(face_encoding1)
@@ -141,7 +142,7 @@ def capture_image():
             filename10 = os.path.join(dirname, "info.json")
             with open (filename10 , "r") as jf:
                 d = {
-                    "id" : x,
+                    "id" : numn,
                     "name" : name_text,
                     "nothing for now" : None,
                     "face code" : face_encoding1
@@ -164,7 +165,6 @@ def capture_image():
 # main code 
 def run_another_script():
     global cap, zero ,x, image2, running, name_text
-
     dirname = os.path.dirname(__file__)
 
     # دادن ایکس ام ال به اوپن سیوی
@@ -297,6 +297,12 @@ def run_another_script():
         # مقداردهی اولیه x با یک رشته خالی
         x = ""
 
+        json_file_path = os.path.join(dirname , "info.json")
+        with open (json_file_path, "r") as jf:
+            data_info = json.load(jf)
+       
+        
+        
         try:
             # استخراج ویژگی‌های چهره از تصویر دوربین
             face_encoding_camera = face_recognition.face_encodings(image2)[0]
@@ -304,42 +310,59 @@ def run_another_script():
             # مسیر پوشه حاوی تصاویر حساب‌ها
             accounts_folder_path = os.path.join(dirname, "accounts")
 
+            # for account in data_info["accounts"]:
+            #     face_code = account.get("face code", "")
+            #     print(f"Face Code: {face_code}")
+
             # پیمایش تمام فایل‌های تصویر در پوشه 'accounts'
-            for image_file in os.listdir(accounts_folder_path):
+            for image_file in data_info["accounts"]:
+                face_code = image_file.get("face code", "")
+                
+                
+                
+                id = image_file.get("id", "")
+                # print(f"Face Code: {face_code}")
+                
                 try:
-                    face_encoding1 = [-0.11280267,  0.14145838,  0.08018201, -0.00721943, -0.08341715,
-       -0.00737467, -0.09255081, -0.04201489,  0.09721249, -0.13722058,
-        0.16613708, -0.02358679, -0.17738828,  0.01263383, -0.03514534,
-        0.11443079, -0.17246965, -0.13363405, -0.0925321 , -0.03192507,
-        0.07265631,  0.02960062, -0.03145688,  0.01934741, -0.19897103,
-       -0.24933299, -0.05345555, -0.07910147,  0.01468277, -0.09238974,
-       -0.05970011,  0.01262081, -0.15833288, -0.06216215,  0.03326654,
-        0.1053894 , -0.02119614, -0.01827122,  0.16326623,  0.01349117,
-       -0.17167389,  0.12390915,  0.06033196,  0.2787444 ,  0.18255034,
-        0.10085205,  0.00929125, -0.14951234,  0.08070201, -0.17552033,
-        0.042058  ,  0.15431055,  0.09536897,  0.14445816,  0.03090554,
-       -0.17823237,  0.08216581,  0.04323204, -0.12752257,  0.07048375,
-        0.05332949, -0.04839368,  0.09205095, -0.01311017,  0.20425592,
-        0.00649036, -0.06580383, -0.12497421,  0.087662  , -0.16056764,
-       -0.08251055,  0.08487719, -0.08776714, -0.1809506 , -0.21913323,
-        0.05154318,  0.43696192,  0.20777005, -0.18442993,  0.06639418,
-       -0.03339871, -0.13276626,  0.09905048,  0.13597932, -0.08972022,
-        0.00206419, -0.02703499,  0.06467727,  0.28189299, -0.00202206,
-       -0.02021896,  0.18191066,  0.07794417,  0.01044347,  0.06714465,
-       -0.05016447, -0.11726888,  0.02748273, -0.11316042, -0.05819146,
-       -0.01228336, -0.1074791 , -0.00496402,  0.09835649, -0.1691    ,
-        0.14804649, -0.00900794, -0.05294512, -0.03781606,  0.11865336,
-       -0.12300778, -0.05224946,  0.16455656, -0.21500643,  0.19078164,
-        0.22787738,  0.09813271,  0.12530968,  0.15702257,  0.10907631,
-        0.03880517,  0.08882717, -0.11018606, -0.06510164,  0.08780763,
-       -0.02491565,  0.16878702,  0.03476463]
+                    face_encoding1 = eval(face_code)
+                    print(type(face_encoding1))
+                    # # face_encoding1 = [float(value) for value in face_encoding1]
+                    print((face_encoding1))
+                    
+                    
+    #                 face_encoding1 = [-0.11280267,  0.14145838,  0.08018201, -0.00721943, -0.08341715,
+    #    -0.00737467, -0.09255081, -0.04201489,  0.09721249, -0.13722058,
+    #     0.16613708, -0.02358679, -0.17738828,  0.01263383, -0.03514534,
+    #     0.11443079, -0.17246965, -0.13363405, -0.0925321 , -0.03192507,
+    #     0.07265631,  0.02960062, -0.03145688,  0.01934741, -0.19897103,
+    #    -0.24933299, -0.05345555, -0.07910147,  0.01468277, -0.09238974,
+    #    -0.05970011,  0.01262081, -0.15833288, -0.06216215,  0.03326654,
+    #     0.1053894 , -0.02119614, -0.01827122,  0.16326623,  0.01349117,
+    #    -0.17167389,  0.12390915,  0.06033196,  0.2787444 ,  0.18255034,
+    #     0.10085205,  0.00929125, -0.14951234,  0.08070201, -0.17552033,
+    #     0.042058  ,  0.15431055,  0.09536897,  0.14445816,  0.03090554,
+    #    -0.17823237,  0.08216581,  0.04323204, -0.12752257,  0.07048375,
+    #     0.05332949, -0.04839368,  0.09205095, -0.01311017,  0.20425592,
+    #     0.00649036, -0.06580383, -0.12497421,  0.087662  , -0.16056764,
+    #    -0.08251055,  0.08487719, -0.08776714, -0.1809506 , -0.21913323,
+    #     0.05154318,  0.43696192,  0.20777005, -0.18442993,  0.06639418,
+    #    -0.03339871, -0.13276626,  0.09905048,  0.13597932, -0.08972022,
+    #     0.00206419, -0.02703499,  0.06467727,  0.28189299, -0.00202206,
+    #    -0.02021896,  0.18191066,  0.07794417,  0.01044347,  0.06714465,
+    #    -0.05016447, -0.11726888,  0.02748273, -0.11316042, -0.05819146,
+    #    -0.01228336, -0.1074791 , -0.00496402,  0.09835649, -0.1691    ,
+    #     0.14804649, -0.00900794, -0.05294512, -0.03781606,  0.11865336,
+    #    -0.12300778, -0.05224946,  0.16455656, -0.21500643,  0.19078164,
+    #     0.22787738,  0.09813271,  0.12530968,  0.15702257,  0.10907631,
+    #     0.03880517,  0.08882717, -0.11018606, -0.06510164,  0.08780763,
+    #    -0.02491565,  0.16878702,  0.03476463]
                     
                     # مقایسه چهره‌ها
                     results = face_recognition.compare_faces([face_encoding1], face_encoding_camera, tolerance=0.4)
 
                     # بررسی نتایج و تنظیم پیام مناسب
                     if results[0]:
-                        x += f"{image_file} matches.\n"
+                        x += f"{id} matches.\n"
                     # else:
                     #     x += f"{image_file} does not match.\n"
 

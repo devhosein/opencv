@@ -15,3 +15,47 @@ if face == face_encoding1:
     print("yes")
 else: 
     print("no")
+    
+    
+    
+    
+# import json
+
+
+# # مسیر فایل جیسون
+# json_file_path = r"A:\Python\MY_projects\opencv\THE  PROJECT\\next 3\\info.json"
+
+# # باز کردن فایل جیسون و تبدیل به دیکشنری
+# with open(json_file_path, "r") as json_file:
+#     data = json.load(json_file)
+
+# # یافتن عدد در آخرین براکت
+# last_id = data["accounts"][-1]["id"]
+
+# # افزودن یک به عدد یافته
+# result = last_id + 1
+
+# print(f"نتیجه: {result}")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {
+   "accounts": [
+      {
+         "id": 1
+      }
+   ]
+}
+    
+    

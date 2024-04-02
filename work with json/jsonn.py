@@ -39,12 +39,19 @@ with open(r"A:\Python\MY_projects\opencv\work with json\\test2.json", "r") as jf
     data = json.load(jf)
 
 # افزودن اطلاعات جدید به لیست اکانت‌ها
-data["account"].append(d)
+data["accounts"].append(d)
 
 # ذخیره اطلاعات به فایل JSON
 with open(r"A:\Python\MY_projects\opencv\work with json\\test2.json", "w") as jf:
     json.dump(data, jf, indent = 3)
 
+
+### 
+# دیفالت باید در جیسونت وجود داشته باشه
+# {
+#   "accounts": []
+# }
+#
 ############################################################################
 
 

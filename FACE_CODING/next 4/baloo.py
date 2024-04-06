@@ -1,14 +1,14 @@
 import customtkinter as tk
 import cv2
 import os
-import subprocess
-import time
+# import subprocess
+# import time
 import threading
 import face_recognition
 from PIL import Image, ImageTk
-import random
+# import random
 from tkinter.scrolledtext import ScrolledText
-import sys
+#import sys
 import numpy as np
 import json
 

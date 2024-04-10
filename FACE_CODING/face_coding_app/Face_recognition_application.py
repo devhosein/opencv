@@ -70,6 +70,39 @@ thread.daemon = True  # این باعث می‌شود که thread با بسته 
 thread.start()
 ####----
 
+####----
+def search_info_with_name():
+    global dirname, name_entry_for_search, the_info
+    json_file_path = os.path.join(dirname , "info.json")
+    with open (json_file_path, "r") as jf:
+        data_info = json.load(jf)
+    name_entry_for_search = name_entry_for_search.get()
+    for account in data_info["accounts"]:
+        if account.get("name", "") == name_entry_for_search:
+            the_info = account
+            print(the_info)
+        
+        
+    
+def Information():
+    global name_entry_for_search, the_info
+    new_window = tk.CTkToplevel()
+    new_window.title("new win")
+    new_window.geometry("600x450")  # اندازه پنجره جدید را تنظیم می‌کند
+    new_window.grab_set()  # این خط باعث می‌شود که پنجره جدید تمرکز کاربر را به خود جلب کند
+    new_window.focus_set()  #این خط پنجره جدید را در مرکز توجه قرار می‌دهد
+    
+    labe0 = tk.CTkLabel(master=new_window, text="Search User Information By Username", font=("Roboto", 20))
+    labe0.place(x =120, y= 20)
+    
+    # ایجاد ویجت ورودی برای متن
+    name_entry_for_search = tk.CTkEntry(new_window, placeholder_text="enter the name:", font=("Roboto", 22),width=250, height=40)
+    name_entry_for_search.place(x=170, y=50 )
+    
+    search_with_name_butten = tk.CTkButton(master=new_window, text="Search", command=search_info_with_name,width=250, height=40)
+    search_with_name_butten.place(x=170 , y=100)
+####----
+
 
 ####----
 # تابع برای گرفتن عکس از دوربین وب
@@ -319,23 +352,20 @@ def create_new_window():
 frame = tk.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-labe0 = tk.CTkLabel(master=frame, text="Wellcom to BALOO Application", font=("Roboto", 35))
+labe0 = tk.CTkLabel(master=frame, text="Face Recognition Application", font=("Roboto", 35),text_color="green")
 labe0.pack(pady=12, padx=10)
 
 
 label = tk.CTkLabel(master=frame, text="press botton to creat new acount", font=("Roboto", 22))
-label.pack(pady=12, padx=10)
+label.place(x=50 , y=100)
 
-# capture_image_button = tk.CTkButton(master=frame, text="Capture Image", command=capture_image)
-# capture_image_button.pack(pady=35, padx=18)
-
-new_acuont = tk.CTkButton(master=frame, text="open a new win", command=create_new_window)
-new_acuont.pack(pady= 35, padx = 18 )
+new_acuont = tk.CTkButton(master=frame, text="create new account", command=create_new_window,width=250, height=40)
+new_acuont.place(x=85 , y=150)
 
 
 # متن قبل از دکمه
 instruction_label = tk.CTkLabel(master=frame, text="Run the image processing code", font=("Roboto", 22))
-instruction_label.pack(pady=12, padx=10)
+instruction_label.place(x=300 , y=250)
 
 
 
@@ -348,12 +378,25 @@ def stop_another_script():
 thread = threading.Thread(target=run_another_script)
 
 # دکمه برای اجرای اسکریپت دیگر
-run_script_button = tk.CTkButton(master=frame, text="Run script", command=thread.start)
-run_script_button.pack(pady=35, padx=18)
+run_script_button = tk.CTkButton(master=frame, text="Run script", command=thread.start ,width=250, height=40)
+run_script_button.place(x=350 , y=300)
 
 # دکمه برای توقف اسکریپت دیگر
-stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script)
-stop_script_button.pack(pady=35, padx=18)
+stop_script_button = tk.CTkButton(master=frame, text="Stop script", command=stop_another_script,width=250, height=40)
+stop_script_button.place(x=350 , y=360)
+
+# People's information
+labe90 = tk.CTkLabel(master=frame, text="People's information", font=("Roboto", 22))
+labe90.place(x=580 , y=100)
+
+info_botten = tk.CTkButton(master=frame, text="show information", command=Information,width=250, height=40)
+info_botten.place(x=560 , y=150)
+
+# creator
+labe90 = tk.CTkLabel(master=frame, text="made by MHB", font=("Roboto", 15),text_color="red")
+labe90.place(x=20, y=520)
+
+
 ####-----
 
 

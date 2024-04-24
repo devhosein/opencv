@@ -2,7 +2,7 @@ import customtkinter as tk
 import cv2
 import os
 # import subprocess
-# import time
+import time
 import threading
 import face_recognition
 from PIL import Image, ImageTk
@@ -11,6 +11,9 @@ from tkinter.scrolledtext import ScrolledText
 # import sys
 import numpy as np
 import json
+from datetime import datetime
+import pandas as pd
+from ctypes import pythonapi, c_long, py_object
 
 dirname = os.path.dirname(__file__)
 zero = True
@@ -22,10 +25,12 @@ tk.set_appearance_mode("Dark")
 tk.set_default_color_theme("dark-blue")
 
 root = tk.CTk()
-root.geometry("1000x600")
+root.geometry("1000x665")
 root.title("image prossing program")
 
 x =""
+Result_name = None
+data_saved = ""
 
 ###----
  # تابع برای به‌روزرسانی تصویر دوربین در ویجت
@@ -101,6 +106,80 @@ def Information():
     search_with_name_butten.place(x=170 , y=100)
 ####----
 
+####----
+def presence ():
+    global Result_name , dirname, data_saved
+    file_path_excel = os.path.join(dirname, "Result.xlsx")
+    user_input = Result_name
+    
+    # دریافت تاریخ و زمان فعلی
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # تلاش برای خواندن فایل اکسل موجود
+    try:
+        df = pd.read_excel(file_path_excel)
+    except FileNotFoundError:
+        # اگر فایل وجود ندارد، یک DataFrame جدید ایجاد کنید
+        df = pd.DataFrame(columns=["----TIME----","-","VORODI"])
+    
+    # ایجاد یک DataFrame جدید با ورودی کاربر
+    new_data = pd.DataFrame([{"----TIME----": current_time,"-":None,"VORODI": user_input}])
+    
+    # اضافه کردن ورودی جدید به DataFrame با استفاده از concat
+    df = pd.concat([df, new_data], ignore_index=True)
+    
+    # ذخیره DataFrame به‌روز شده در فایل اکسل
+    df.to_excel(file_path_excel, index=False)
+    
+    data_saved = f"Your login has been successfully registered :: {Result_name}"
+####----
+
+####----
+def absence ():
+    global Result_name , dirname, data_saved
+    file_path_excel = os.path.join(dirname, "Result.xlsx")
+    user_input = Result_name
+    
+    # دریافت تاریخ و زمان فعلی
+    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # تلاش برای خواندن فایل اکسل موجود
+    try:
+        df = pd.read_excel(file_path_excel)
+    except FileNotFoundError:
+        # اگر فایل وجود ندارد، یک DataFrame جدید ایجاد کنید
+        df = pd.DataFrame(columns=["----TIME----","-","KHOROJI"])
+    
+    # ایجاد یک DataFrame جدید با ورودی کاربر
+    new_data = pd.DataFrame([{"----TIME----": current_time ,"-":None,"KHOROJI": user_input}])
+    
+    # اضافه کردن ورودی جدید به DataFrame با استفاده از concat
+    df = pd.concat([df, new_data], ignore_index=True)
+    
+    data_saved = f"Your checkout has been successfully registered :: {Result_name}"
+    print(data_saved)
+    
+    # ذخیره DataFrame به‌روز شده در فایل اکسل
+    df.to_excel(file_path_excel, index=False)
+
+    
+####----
+
+####----
+# def data_save():
+#         lab_v_kh = tk.CTkLabel(master=frame, text= data_saved, font=("Roboto", 18))
+#         lab_v_kh.place(x=270, y=530)
+zeroo = True
+def data_save():
+    global lab_v_kh, data_saved, zeroo
+    if zeroo:
+        print (1)
+        lab_v_kh = tk.CTkLabel(master=frame, text= data_saved, font=("Roboto", 18))
+        lab_v_kh.place(x=270, y=530)
+        zeroo = False
+    else:
+        lab_v_kh.configure(text=data_saved)
+####----
 
 ####----
 # تابع برای گرفتن عکس از دوربین وب
@@ -196,7 +275,7 @@ def capture_image():
 #######-------
 # main code 
 def run_another_script():
-    global cap, zero ,x, image2, running, name_text
+    global cap, zero ,x, image2, running, name_text, Result_name, data_saved
     dirname = os.path.dirname(__file__)
 
     # دادن ایکس ام ال به اوپن سیوی
@@ -271,6 +350,7 @@ def run_another_script():
                     # بررسی نتایج و تنظیم پیام مناسب
                     if results[0]:
                         x += f"{id} matches.\n"
+                        Result_name = id
                     # else:
                     #     x += f"{image_file} does not match.\n"
 
@@ -283,11 +363,16 @@ def run_another_script():
             # چاپ خطا در صورت بروز مشکل
             x += f"An error occurred: {e}\n"
             
-
+        labename = tk.CTkLabel(master=frame, text=Result_name, font=("Roboto", 18))
+        labename.place(x=440, y=445)
+        
+        data_save()
+    
+        
         # چاپ نتیجه یا به‌روزرسانی متن لیبل
         if zero:
             label12 = tk.CTkLabel(master=frame, text=x, font=("Roboto", 22))
-            label12.pack(pady=12, padx=10)
+            label12.place(x= 20, y=320)
             zero = False
         else:
             label12.configure(text=x)
@@ -389,6 +474,13 @@ labe90.place(x=580 , y=100)
 
 info_botten = tk.CTkButton(master=frame, text="show information", command=Information,width=250, height=40)
 info_botten.place(x=560 , y=150)
+
+hozor_but = tk.CTkButton(master=frame, text="PRESENCE", command=presence,width=160, height=100, fg_color="green")
+hozor_but.place(x=213 , y=420)
+
+ghouob_but = tk.CTkButton(master=frame, text="EXIT", command=absence,width=160, height=100, fg_color="red")
+ghouob_but.place(x=570 , y=420)
+
 
 # creator
 labe90 = tk.CTkLabel(master=frame, text="made by MHB", font=("Roboto", 15),text_color="red")

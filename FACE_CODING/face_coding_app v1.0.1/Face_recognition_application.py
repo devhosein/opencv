@@ -51,8 +51,6 @@ def update_camera_image():
         # image2 = face_recognition.load_image_file(filename4)
 
 
-        
-
 # ایجاد ویجت برای نمایش تصویر دوربین
 camera_label = tk.CTkLabel(root)
 camera_label.place(x=650, y=10)  # می‌توانید موقعیت x و y را تغییر دهید تا با طراحی شما مطابقت داشته باشد
